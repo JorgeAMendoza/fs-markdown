@@ -1,0 +1,30 @@
+{
+  "name": "fs-markdown",
+  "version": "0.0.0",
+  "description": "Fullstack markdown application built with React, TypeScript, GraphQL, and postgreSQL. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JorgeAMendoza/fs-markdown.git"
+  },
+  "keywords": [
+    "React",
+    "TypeScript",
+    "GraphQL",
+    "PostgreSQL",
+    "Redux",
+    "ESLint",
+    "Prettier",
+    "supertest",
+    "Cypress"
+  ],
+  "author": "Jorge A. Mendoza II",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JorgeAMendoza/fs-markdown/issues"
+  },
+  "homepage": "https://github.com/JorgeAMendoza/fs-markdown#readme"
+}
