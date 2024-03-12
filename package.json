@@ -2,9 +2,13 @@
   "name": "fs-markdown",
   "version": "0.0.0",
   "description": "Fullstack markdown application built with React, TypeScript, GraphQL, and postgreSQL. ",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky",
+    "check:types": "npx tsc --noEmit",
+    "lint:client": "cd client && npm run lint",
+    "client:dev": "cd client && npm run dev",
+    "client:test:cl": "cd client && npm run cypress:run"
   },
   "repository": {
     "type": "git",
@@ -26,5 +30,21 @@
   "bugs": {
     "url": "https://github.com/JorgeAMendoza/fs-markdown/issues"
   },
-  "homepage": "https://github.com/JorgeAMendoza/fs-markdown#readme"
+  "homepage": "https://github.com/JorgeAMendoza/fs-markdown#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.1.1",
+    "@typescript-eslint/parser": "^7.1.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-react": "^1.1.7",
+    "eslint-plugin-cypress": "^2.15.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-react": "^7.34.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.2"
+  }
 }
