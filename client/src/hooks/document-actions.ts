@@ -1,5 +1,5 @@
-import { useAppSelector, useAppDispatch } from './redux-hooks';
-import { useCallback } from 'react';
+import { useAppSelector, useAppDispatch } from './redux-hooks'
+import { useCallback } from 'react'
 import {
   setNewDocument,
   displayModal,
@@ -8,92 +8,90 @@ import {
   saveDocumentInformation,
   updateCurrentDocumentTitle,
   updateMarkdown,
-} from '@/redux/document-reducer';
-import type { SavedDocument } from '@/types/saved-document';
-import createSaveDate from '@/utils/create-save-date';
+} from '@/redux/document-reducer'
+import type { SavedDocument } from '@/types/saved-document'
+import createSaveDate from '@/utils/create-save-date'
 
 export const useDocumentAction = () => {
-  const { document } = useAppSelector((state) => state);
-  const dispatch = useAppDispatch();
+  const { document } = useAppSelector((state) => state)
+  const dispatch = useAppDispatch()
 
   const newDoc = useCallback(() => {
     if (!document) {
-      dispatch(setNewDocument());
-      return;
+      dispatch(setNewDocument())
+      return
     } else if (document.isNewDocument)
       dispatch(
         displayModal(
           `do you want to discard the document ${document.currentDocumentTitle}? This cannot be reversed.`,
           'Discard new document',
-          'discard'
-        )
-      );
+          'discard',
+        ),
+      )
     else
       dispatch(
         displayModal(
           `do you want to discard any changes made to ${
-            document?.currentDocumentTitle || ''
+            document.currentDocumentTitle || ''
           }? This cannot be reversed.`,
           'Discard changes',
-          'discard'
-        )
-      );
-  }, [document]);
+          'discard',
+        ),
+      )
+  }, [document, dispatch])
 
   const switchDoc = useCallback(
     (documentTitle: string) => {
-      const savedMarkdown = localStorage.getItem('savedMarkdown');
+      const savedMarkdown = localStorage.getItem('savedMarkdown')
       if (!savedMarkdown) {
-        return;
+        return
       }
 
       if (!document) {
-        const savedMarkdownObject = JSON.parse(savedMarkdown) as SavedDocument;
+        const savedMarkdownObject = JSON.parse(savedMarkdown) as SavedDocument
         if (!savedMarkdownObject[documentTitle]) {
-          return;
+          return
         }
 
         dispatch(
           changeDocument(
             documentTitle,
-            savedMarkdownObject[documentTitle].documentMarkdown
-          )
-        );
-        return;
+            savedMarkdownObject[documentTitle].documentMarkdown,
+          ),
+        )
+        return
       } else {
-        dispatch(applyTargetDoc(documentTitle));
+        dispatch(applyTargetDoc(documentTitle))
         dispatch(
           displayModal(
             `Do you want to discard the current document ${
               document.currentDocumentTitle || ''
             }?`,
-            document?.isNewDocument
-              ? 'Discard new document'
-              : 'Discard changes',
-            'switch'
-          )
-        );
+            document.isNewDocument ? 'Discard new document' : 'Discard changes',
+            'switch',
+          ),
+        )
       }
     },
-    [document]
-  );
+    [document, dispatch],
+  )
 
   const saveDoc = useCallback(() => {
-    const savedDocuments = localStorage.getItem('savedMarkdown');
-    const validDocumentTitle = /^[-\w^&'@{}[\],$=!#()%+~]+\.md$/;
-    if (!document) return;
+    const savedDocuments = localStorage.getItem('savedMarkdown')
+    const validDocumentTitle = /^[-\w^&'@{}[\],$=!#()%+~]+\.md$/
+    if (!document) return
 
     if (!validDocumentTitle.test(document.currentDocumentTitle)) {
       dispatch(
         displayModal(
           `The document title ${
-            document?.currentDocumentTitle || ''
+            document.currentDocumentTitle || ''
           } is invalid, please enter a valid document name`,
           'Invalid document title',
-          'title'
-        )
-      );
-      return;
+          'title',
+        ),
+      )
+      return
     }
 
     if (!savedDocuments) {
@@ -104,93 +102,99 @@ export const useDocumentAction = () => {
             documentMarkdown: document.documentMarkdown,
             date: createSaveDate(new Date()),
           },
-        })
-      );
-      dispatch(saveDocumentInformation());
-      window.dispatchEvent(new Event('storage'));
+        }),
+      )
+      dispatch(saveDocumentInformation())
+      window.dispatchEvent(new Event('storage'))
     } else if (document.isNewDocument) {
-      const savedDocumentsObject = JSON.parse(savedDocuments) as SavedDocument;
+      const savedDocumentsObject = JSON.parse(savedDocuments) as SavedDocument
       if (document.currentDocumentTitle in savedDocumentsObject)
         dispatch(
           displayModal(
             `Document ${
-              document?.currentDocumentTitle || ''
+              document.currentDocumentTitle || ''
             } will have its contents overwritten. This action cannnot be reversed.`,
             'Duplicate document',
-            'overwrite'
-          )
-        );
+            'overwrite',
+          ),
+        )
       else {
         const newSave = {
           documentMarkdown: document.documentMarkdown,
           date: createSaveDate(new Date()),
-        };
-        savedDocumentsObject[document.currentDocumentTitle] = newSave;
+        }
+        savedDocumentsObject[document.currentDocumentTitle] = newSave
         localStorage.setItem(
           'savedMarkdown',
-          JSON.stringify(savedDocumentsObject)
-        );
-        dispatch(saveDocumentInformation());
-        window.dispatchEvent(new Event('storage'));
+          JSON.stringify(savedDocumentsObject),
+        )
+        dispatch(saveDocumentInformation())
+        window.dispatchEvent(new Event('storage'))
       }
-    } else if (!document.isNewDocument) {
-      const savedDocumentsObject = JSON.parse(savedDocuments) as SavedDocument;
+    } else {
+      const savedDocumentsObject = JSON.parse(savedDocuments) as SavedDocument
       if (document.originalDocumentTitle === document.currentDocumentTitle) {
         savedDocumentsObject[document.originalDocumentTitle].documentMarkdown =
-          document.documentMarkdown;
+          document.documentMarkdown
         savedDocumentsObject[document.originalDocumentTitle].date =
-          createSaveDate(new Date());
+          createSaveDate(new Date())
         localStorage.setItem(
           'savedMarkdown',
-          JSON.stringify(savedDocumentsObject)
-        );
-        dispatch(saveDocumentInformation);
-        window.dispatchEvent(new Event('storage'));
+          JSON.stringify(savedDocumentsObject),
+        )
+        dispatch(saveDocumentInformation)
+        window.dispatchEvent(new Event('storage'))
       } else {
         if (!(document.currentDocumentTitle in savedDocumentsObject)) {
           savedDocumentsObject[document.currentDocumentTitle] = {
             documentMarkdown: document.documentMarkdown,
             date: createSaveDate(new Date()),
-          };
-          delete savedDocumentsObject[document.originalDocumentTitle];
+          }
+          delete savedDocumentsObject[document.originalDocumentTitle]
           localStorage.setItem(
             'savedMarkdown',
-            JSON.stringify(savedDocumentsObject)
-          );
-          dispatch(saveDocumentInformation());
-          window.dispatchEvent(new Event('storage'));
+            JSON.stringify(savedDocumentsObject),
+          )
+          dispatch(saveDocumentInformation())
+          window.dispatchEvent(new Event('storage'))
         } else {
           dispatch(
             displayModal(
               `Document ${
-                document?.currentDocumentTitle || ''
+                document.currentDocumentTitle || ''
               } will have its contents overwritten. This action cannnot be reversed.`,
               'Duplicate document',
-              'overwrite'
-            )
-          );
+              'overwrite',
+            ),
+          )
         }
       }
     }
-  }, [document]);
+  }, [document, dispatch])
 
-  const updateDocTitle = useCallback((title: string) => {
-    dispatch(updateCurrentDocumentTitle(title));
-  }, []);
+  const updateDocTitle = useCallback(
+    (title: string) => {
+      dispatch(updateCurrentDocumentTitle(title))
+    },
+    [dispatch],
+  )
 
   const deleteDoc = useCallback(() => {
     dispatch(
       displayModal(
         'Are you sure you want to delete the current document and its contents? This action cannot be reversed.',
         'Delete Document',
-        'delete'
-      )
-    );
-  }, []);
+        'delete',
+      ),
+    )
+  }, [dispatch])
 
-  const updateDoc = useCallback((markdown: string) => {
-    dispatch(updateMarkdown(markdown));
-  }, []);
+  const updateDoc = useCallback(
+    (markdown: string) => {
+      dispatch(updateMarkdown(markdown))
+    },
+    [dispatch],
+  )
 
   return {
     newDoc,
@@ -199,5 +203,5 @@ export const useDocumentAction = () => {
     updateDocTitle,
     deleteDoc,
     updateDoc,
-  };
-};
+  }
+}
