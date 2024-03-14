@@ -5,10 +5,12 @@ const config: CodegenConfig = {
   generates: {
     'client/src/types/graphql/': {
       plugins: ['typescript'],
-      preset: 'client-preset'
+      preset: 'client-preset',
+      overwrite: true
     },
-    'server/src/types/graphql/': {
-      plugins: ['typescript']
+    'server/src/types/graphql/models.ts': {
+      plugins: ['typescript'],
+      overwrite: true
     }
   }
 }

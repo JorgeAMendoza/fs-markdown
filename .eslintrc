@@ -36,7 +36,7 @@
       "plugins": ["react-refresh"],
       "settings": {
         "react": {
-          "version": "detect"
+          "version": "18"
         }
       },
       "rules": {
@@ -69,6 +69,42 @@
           }
         ],
         "no-nested-ternary": "error"
+      }
+    },
+    {
+      "files": "./server/src/**/*.ts",
+      "extends": ["eslint:recommended", "plugin:node/recommended"],
+      "parserOptions": {
+        "project": "./server/tsconfig.json"
+      },
+      "env": {
+        "node": true
+      },
+      "rules": {
+        "semi": ["error", "never"],
+        "node/no-unsupported-features/es-syntax": [
+          "error",
+          { "ignores": ["modules"] }
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-types": "off"
+      }
+    },
+    {
+      "files": "./server/src/types/graphql/**/*.ts",
+      "extends": ["plugin:node/recommended"],
+      "parserOptions": {
+        "project": "./server/tsconfig.json"
+      },
+      "env": { "node": true },
+      "rules": {
+        "node/no-unsupported-features/es-syntax": [
+          "error",
+          { "ignores": ["modules"] }
+        ],
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-types": "off",
+        "no-unused-vars": 0
       }
     }
   ]

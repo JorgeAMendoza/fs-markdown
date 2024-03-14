@@ -1,2 +1,2 @@
-const message = "hello graphql";
-console.log(message);
+const message = 'hello graphql'
+console.log(message)

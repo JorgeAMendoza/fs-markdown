@@ -8,6 +8,7 @@
     "codegen": "npx graphql-codegen",
     "check:types": "npx tsc --noEmit",
     "lint:client": "cd client && npm run lint",
+    "lint:server": "cd server && npm run lint",
     "client:dev": "cd client && npm run dev",
     "client:test:cl": "cd client && npm run cypress:run"
   },
@@ -42,12 +43,14 @@
     "eslint-config-react": "^1.1.7",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-react": "^7.34.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.2",
+    "typescript-eslint": "^7.2.0"
   }
 }
