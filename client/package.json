@@ -15,6 +15,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
     "dompurify": "^2.4.1",
+    "graphql": "^16.8.1",
     "marked": "^4.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,0 +1,49 @@
+type Query {
+  getList(userId: String!, page: Int!): MarkdownList!
+  getMarkdown(markdownId: String!, userId: String!): Markdown!
+  user: User
+  token: Token
+}
+
+type Mutation {
+  login(email: String!, password: String!, name: String): Token!
+  signUp(email: String!, password: String!, name: String): Token!
+  deleteMarkdown(markdownId: String!, userId: String!): Markdown!
+  updateMarkdownTitle(markdownId: String!, newTitle: String!): Markdown!
+  updateMarkdownText(markdownId: String!, text: String!): Markdown!
+}
+
+# the markdown document
+# createdBy will be the user ID.
+type Markdown {
+  id: String!
+  title: String!
+  markdown: String!
+  userId: String!
+}
+
+# rendered on the menu list
+type MarkdownItem {
+  id: String!
+  title: String!
+  date: String!
+  userId: String!
+}
+
+# user account
+type User {
+  name: String!
+  email: String!
+  accessToken: String
+  refreshToken: String!
+}
+
+# access and refresh token
+type Token {
+  token: String!
+}
+
+# list of saved markdown documents
+type MarkdownList {
+  list: [MarkdownItem!]!
+}

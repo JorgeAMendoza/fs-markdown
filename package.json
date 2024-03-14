@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
+    "codegen": "npx graphql-codegen",
     "check:types": "npx tsc --noEmit",
     "lint:client": "cd client && npm run lint",
     "client:dev": "cd client && npm run dev",
@@ -32,6 +33,8 @@
   },
   "homepage": "https://github.com/JorgeAMendoza/fs-markdown#readme",
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.2.4",
     "@typescript-eslint/eslint-plugin": "^7.1.1",
     "@typescript-eslint/parser": "^7.1.1",
     "eslint": "^8.57.0",
